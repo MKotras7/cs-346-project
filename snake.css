@@ -1,0 +1,50 @@
+body {
+    background-color: lightgray;
+    box-sizing: border-box;
+    margin: 0;
+}
+
+#wrapper {
+    width: 80%;
+    background-color: white;
+    min-height: 100vh;
+    margin: 0 auto;
+}
+
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    background-color:lightgreen;
+    height: 1in;
+}
+
+header > * {
+    flex-grow: 1;
+}
+#headerbar {
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+#loginPanel {
+    padding: 25px 10px 10px 10px;
+    display:flex;
+    flex-direction: column;
+    height: 100%;
+    align-items:flex-start;
+}
+
+header img {
+    box-sizing: border-box;
+    image-rendering: pixelated;
+    height: 100%;
+    padding: 10px;
+}
+
+nav {
+    background-color: blue;
+    width: 100%;
+}
