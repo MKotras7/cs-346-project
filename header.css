@@ -1,0 +1,28 @@
+#headerMain {
+    background-color: green;
+    box-shadow: inset 0px -8px 4px -4px black;
+    display: flex;
+    flex-direction: row;
+
+}
+#headerMain img {
+    box-sizing: border-box;
+    image-rendering: pixelated;
+    height: 64px;
+    margin: 10px;
+    border: 2px solid black;
+}
+#headerMain h1 {
+    display: inline-block;
+    flex-grow: 1;
+}
+#headerLoginStack {
+    font-size: 1.3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-right: 50px;
+}
+#headerLoginStack a{
+    color: lightgray;
+}
