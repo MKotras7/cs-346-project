@@ -37,29 +37,44 @@
                 ?> <td> <?=$i?> </td> <?php
                 for($j = 0; $j < $width; $j++)
                 {
-                    ?> <td id="<?= getAlphaBase($j).$i ?>">  </td> <?php
+                    ?> <td style="background-color: <?= rand(0, 1) == 0 ? "black" : "#7EBCA1" ?>;" id="<?= getAlphaBase($j).$i ?>">  </td> <?php
                 }
                 ?> </tr> <?php
             }
             ?> </table> <?php
         ?> </div> <?php
     }
+
+    function generateInputbox($date, $time)
+    {
+        $id = "snakeInput".$date.$time;
+        ?>
+        <div class="snakeInput">
+            <label for="<?=$id?>"><?=$date?> : <?=$time?></label>
+            <select name="<?=$id?>" id="<?=$id?>">
+                <option value="none">None</option>
+                <option value="up">Up</option>
+                <option value="right">Right</option>
+                <option value="down">Down</option>
+                <option value="left">Left</option>
+            </select>
+        </div>
+        <?php
+    }
 ?>
 
 <style>
     #gameWrapper {
-        width: 500px;
-        height: 500px;
         overflow-y: auto;
         overflow-x: auto;
+        aspect-ratio: 1;
     }
     #gameTable {
         transform-origin: top left;
-        scale: 2;
+        scale: 1;
     }
     table {
         display: block;
-        
     }
     table tr {
         display: flex;
@@ -73,19 +88,147 @@
         justify-content: center;
         align-items: center;
     }
+    #horizontalSplit {
+        display: flex; 
+        flex-direction: column; 
+        justify-content: space-between;
+    }
+    #horizontalSplit > * {
+        margin: 5px;
+    }
+    #chatBox {
+        min-width: 250px;
+        flex-grow: 1;
+        background-color: #acd6e9;
+        display: flex;
+        flex-direction: column;
+    }
+    #chatBox h2 {
+        text-align: center;
+        margin: 0;
+        padding: 5px;
+        border-bottom: 1px solid black;
+    }
+    #chatBoxContainer {
+        display: flex;
+        flex-direction: row;
+        align-items: stretch;
+        flex-grow: 1;
+    }
+    #chatBoxChannels {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        border-right: 1px solid black;
+    }
+    #chatBoxText {
+        flex-grow: 1;
+    }
+    #chatBox img {
+        margin: 5px;
+        height: 32px;
+        width: 32px;
+        border-radius: 50%;
+    }
+    #chatBox img:hover {
+        cursor: pointer;
+    }
+    #chatBoxText h3 {
+        text-align: center;
+        margin: 10px 0 0 0;
+        padding: 0;
+    }
+
+    #inputForm {
+        display: flex;
+        flex-direction: row; 
+        flex-wrap: none;
+        overflow-x: auto;
+    }
+
+    .snakeInput {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+
+        height: 75px;
+        width: 200px;
+        min-width: 200px;
+        display: flex;
+        flex-direction: column;
+        border: 2px solid black;
+    }
+
+    .noBullet {
+        list-style: none;
+    }
+
+    @media all and (min-width: 800px)
+    {
+        #horizontalSplit {
+            flex-direction: row;
+        }
+        #chatBox {
+            max-width: 30%;
+        }
+    }
 </style>
 
 <!DOCTYPE html>
 <html lang="en">
     <meta charset="UTF-8">
-    <title>Snake Game</title>
+    <title>Login</title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <link rel="stylesheet" href="snake.css">
+    <?php include("./header.php") ?>
     <body>
-        <?=buildGameTable(20, 20)?>
-        <br>
-        <input type="range" value="1.0" min="0.50" max="1.5"  step="0.05" oninput="
-            var element = document.getElementById('gameTable');
-            element.style.scale = this.value;">
+        <main>
+            <h1 style="text-align: center; margin: 0 15px;">Ronaldo's Fun House</h1>
+            <div id="horizontalSplit">
+                <?=buildGameTable(30, 30)?>
+                <div id="chatBox">
+                    <h2> chat </h2>
+                    <div id="chatBoxContainer">
+                        <ul id="chatBoxChannels" class="nobullet">
+                            <li><img src="./icons/generalIcon.jpg" alt="General chat"/></li>
+                            <li><img src="./icons/gumbyIcon.jpg" alt="General chat"/></li>
+                            <li><img src="./icons/justinIcon.jpg" alt="General chat"/></li>
+                            <li><img src="./icons/ruggIcon.jpg" alt="General chat"/></li>
+                            <li><img src="./icons/trundlerIcon.jpg" alt="General chat"/></li>
+                        </ul>
+                        <div id="chatBoxText" style="display: flex; flex-direction: column">
+                            <h3>General chat</h3>
+                            <ul id="messages" class="nobullet" style="flex-grow: 1; margin: 0; padding: 0; display: flex; flex-direction: column; justify-content: flex-end;">
+                                <li> 
+                                    <div style="display: flex; flex-direction: row; align-items: center;">
+                                        <img src="./icons/gumbyIcon.jpg" alt="General chat"/> 
+                                        askjndfbhadshfajkhfa green is sus green is sus iashjrosahj
+                                    </div>
+                                </li>
+                                <li> 
+                                    <div style="display: flex; flex-direction: row; align-items: center;">
+                                        <img src="./icons/trundlerIcon.jpg" alt="General chat"/> 
+                                        jahahdahdosahr
+                                    </div>
+                                </li>
+                            </ul>
+                            <input type="text" id="chatTextBox" style="border-radius: 5px; margin: 5px; font-size: 18px;"/>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="inputBox">
+                <form id="inputForm" action="./gameScreen.php">
+                    <?= generateInputbox("11/05/2021", "9pm") ?>
+                    <?= generateInputbox("11/05/2021", "10pm") ?>
+                    <?= generateInputbox("11/05/2021", "11pm") ?>
+                    <?= generateInputbox("11/05/2021", "12pm") ?>
+                    <?= generateInputbox("11/05/2021", "1am") ?>
+                    <?= generateInputbox("11/05/2021", "2am") ?>
+                </form>
+                <a class="anchorButton" href="./gameScreen.php">Submit</a>
+            </div>
+        </main>
     </body>
 </html> 

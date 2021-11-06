@@ -1,0 +1,35 @@
+digraph D {
+	graph [nodesep = "1", overlap = false, rankdir = "LR", overlap=prism]
+	collapse = true;
+	edge[weight = 5]
+	fontsize = 20
+	node [ shape = "record" ]
+	
+	HomePage [ label = "Home page" ];
+	BrowseGames [ label = "Browse Games" ];
+	Login [ label = "Login" ];
+	ForgotPassword [ label = "Forgot Password" ]
+	CreateGame [ label = "Create Game" ]
+	Register [ label = "Register" ];
+	subgraph cluster {
+		label="Game View\n(Dynamically served per game\nwith the same URL)";
+        node [style=filled];
+		Game1 [ label = "Game 1" ];
+		Game2 [ label = "Game 2" ];
+		Game3 [ label = "Game 3" ];
+	}
+	
+	HomePage -> BrowseGames;
+	HomePage -> Login;
+	HomePage -> Register;
+	Login -> Register;
+	Register -> Login;
+	Login -> ForgotPassword;
+	ForgotPassword -> Login;
+	
+	BrowseGames -> Game1;
+	BrowseGames -> Game2;
+	BrowseGames -> Game3;
+	BrowseGames -> CreateGame;
+	CreateGame -> BrowseGames;
+}

@@ -1,28 +1,40 @@
-#headerMain {
-    background-color: green;
-    box-shadow: inset 0px -8px 4px -4px black;
+@font-face {
+    font-family: Poppins;
+    src:url("./fonts/Poppins-SemiBold.ttf");
+}
+
+header {
+    font-family: Poppins, Arial, Helvetica, sans-serif;
+    font-weight: 600;
+
+    background-color: #90D0DF;
+    box-shadow: inset 0px -8px 4px -4px #0984C0;
     display: flex;
     flex-direction: row;
-
+    align-items: center;
+    flex-grow: 0;
+    flex-shrink: 0;
 }
-#headerMain img {
+header img {
     box-sizing: border-box;
     image-rendering: pixelated;
     height: 64px;
     margin: 10px;
     border: 2px solid black;
 }
-#headerMain h1 {
+header h1 {
     display: inline-block;
+}
+nav {
+    padding: 10px;
     flex-grow: 1;
-}
-#headerLoginStack {
-    font-size: 1.3rem;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    margin-right: 50px;
+    justify-content: space-between;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: wrap;
 }
-#headerLoginStack a{
-    color: lightgray;
+nav a {
+    height: 50px;
+    font-size: 20px;
 }
