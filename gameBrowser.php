@@ -24,19 +24,22 @@
     function makeUpcomingGameListing($name, $curPlayers, $maxPlayers, $startDate)
     {
         makeGameListing($name, $curPlayers, $maxPlayers, $startDate, "Starts on: ");
-
     }
 ?>
 
 
 <!DOCTYPE html>
 <html lang="en">
-    <meta charset="UTF-8">
-    <title>Main Menu</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="snake.css">
-    <?php include("./header.php") ?>
+    <head>
+        <meta charset="UTF-8">
+        <title>Main Menu</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" href="/styles/snake.css">
+        <link rel="stylesheet" href="/styles/gameList.css">
+    </head>
+
     <body>
+        <?php include("./header.php") ?>
         <main>
             <h1 class="centeredHeader"> Browse Games </h1>
             <h2> Current Games </h2>
@@ -53,8 +56,5 @@
             </ul>
             <a href="./createGame.php" class="anchorButton">Create Game</a>
             </main>
-        <footer>
-
-        </footer>
     </body>
 </html> 

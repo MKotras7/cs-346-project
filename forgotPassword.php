@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
-    <meta charset="UTF-8">
-    <title>Forgot Password</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
-    <link rel="stylesheet" href="snake.css">
+    <head>
+        <meta charset="UTF-8">
+        <title>Forgot Password</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel="stylesheet" href="/styles/snake.css">
+    </head>
+
     <body>
         <?php include("./header.php") ?>
         <main class="singleCol">
@@ -12,7 +15,7 @@
                 <label for="username"> Username </label>
                 <input type="text" id="username" name="username" placeholder="username">
 
-                <input type="submit" value="Submit"/>
+                <input class="anchorButton" type="submit" value="Submit"/>
                 <div class="formExtras" style="display: flex; flex-direction: row; justify-content: flex-start;">
                     <a href="./login.php">Back to login</a>
                 </div>

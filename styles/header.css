@@ -1,19 +1,12 @@
-@font-face {
-    font-family: Poppins;
-    src:url("./fonts/Poppins-SemiBold.ttf");
-}
-
 header {
-    font-family: Poppins, Arial, Helvetica, sans-serif;
+    /* Visual properties of the header */
     font-weight: 600;
-
     background-color: #90D0DF;
     box-shadow: inset 0px -8px 4px -4px #0984C0;
+
     display: flex;
     flex-direction: row;
     align-items: center;
-    flex-grow: 0;
-    flex-shrink: 0;
 }
 header img {
     box-sizing: border-box;

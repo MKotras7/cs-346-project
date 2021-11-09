@@ -1,5 +1,5 @@
-<link rel="stylesheet" href="header.css">
-<link rel="stylesheet" href="snake.css">
+<link rel="stylesheet" href="/styles/header.css">
+<link rel="stylesheet" href="/styles/snake.css">
 <header>
     <a href="./"><img src="./icon.png" alt="logo"/></a>
     <h1>🐍 Snake Game</h1>

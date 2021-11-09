@@ -1,0 +1,30 @@
+.gameList {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+
+    list-style: none;
+    padding: 0;
+}
+.gameDisplay {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    height: 12em;
+    width: 16ch;
+    background-color: #acd6e9;
+    padding: 0.5rem;
+    border-radius: 1em;
+}
+
+.gameList div {
+    flex-grow: 1;
+}
+
+.gameList p {
+    margin: 0.25em;
+}
+.gameList > * {
+    margin: 2px;
+}
