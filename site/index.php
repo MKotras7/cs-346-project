@@ -13,7 +13,7 @@
             <h1 class="centeredHeader">Welcome to the Snake Game website! </h1>
             <ul>
                 <li>
-                    You don't need to give us any information to start playing, simply <a href="guestAccount.php">make a guest account!</a>
+                    You don't need to give us any information to start playing, simply <a href="guestAccount.php">get a guest account!</a>
                     <ul>
                         <li>A guest account is limited to strictly playing games.</li>
                         <li>You can register a new account to access advanced features such as:

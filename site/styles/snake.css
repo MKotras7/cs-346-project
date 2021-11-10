@@ -74,6 +74,10 @@ p {
     text-align: center;
 }
 
+.inputForm p {
+    margin: 0.15em 0;
+}
+
 .inputForm h1 {
     font-size: 2rem;
 }

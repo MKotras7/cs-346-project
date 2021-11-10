@@ -1,3 +1,32 @@
+<?php
+    $attemptedLogin = $_SERVER['REQUEST_METHOD'] == 'POST';
+    $succeedLogin = False;
+
+
+    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+        $username = $_POST["username"];
+        $password = $_POST["password"];
+
+        require_once "utils/dbConnect.php";
+        $db = db_connect();
+
+        $getPasswordQuery = "SELECT password FROM user WHERE username=?";
+        $getPasswordStatement = $db->prepare($getPasswordQuery);
+        $getPasswordStatement->execute([$username]);
+        $getPasswordResult = $getPasswordStatement->fetchColumn(0);
+        //print_r($getPasswordResult);
+        if(password_verify($password, $getPasswordResult))
+        {
+            echo "CORRECT PASSWORD";
+            $succeedLogin = True;
+        }
+        else
+        {
+            echo "INCORRECT LOGIN";
+        }
+    }
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,8 +39,14 @@
     <body>
         <?php include("./header.php") ?>
         <main class="singleCol">
-            <form action="./login.php" class="inputForm">
+            <form action="./login.php" class="inputForm" method="POST">
                 <h1>Login</h1>
+                <?php 
+                    if($attemptedLogin && !$succeedLogin)
+                    {
+                        ?> <h2 style="color: red;"> Sorry, invalid credentials. </h2> <?php
+                    } 
+                ?>
                 <label for="username"> Username </label>
                 <input type="text" id="username" name="username" placeholder="username">
 
