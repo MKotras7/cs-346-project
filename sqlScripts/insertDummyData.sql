@@ -40,6 +40,6 @@ VALUES
 	
 SELECT game.name, user.username FROM game LEFT JOIN patron on game.id=patron.gameID LEFT JOIN user ON patron.userID=user.id;
 
-SELECT game.id, game.name, COUNT(*) curPlayers, game.maxPlayers, game.startDate FROM game LEFT JOIN patron ON patron.gameID=game.id WHERE game.startDate<CURRENT_TIMESTAMP GROUP BY game.id HAVING curPlayers<>game.maxPlayers;
+SELECT game.id, game.name, COUNT(CASE WHEN patron.userID IS NOT NULL THEN 1 END) curPlayers, game.maxPlayers, game.startDate FROM game LEFT JOIN patron ON patron.gameID=game.id WHERE game.startDate<CURRENT_TIMESTAMP GROUP BY game.id HAVING curPlayers<>game.maxPlayers;
 
-SELECT game.id, game.name, COUNT(*) curPlayers, game.maxPlayers, game.startDate FROM game LEFT JOIN patron ON patron.gameID=game.id WHERE game.startDate>CURRENT_TIMESTAMP GROUP BY game.id HAVING curPlayers<>game.maxPlayers;
+SELECT game.id, game.name, COUNT(CASE WHEN patron.userID IS NOT NULL THEN 1 END) curPlayers, game.maxPlayers, game.startDate FROM game LEFT JOIN patron ON patron.gameID=game.id WHERE game.startDate>CURRENT_TIMESTAMP GROUP BY game.id HAVING curPlayers<>game.maxPlayers;
