@@ -29,6 +29,17 @@ VALUES
 		20
 	);
 
+INSERT INTO game (name, dateCreated, startDate, maxPlayers, boardSize, multiStep) 
+VALUES
+	(
+		'This should fail!',
+		CURRENT_TIMESTAMP,
+		CURRENT_TIMESTAMP,
+		0,
+		20,
+		0
+	);
+
 SELECT game.id, name, user.username FROM game LEFT JOIN user ON user.id=game.hostID;
 
 
@@ -37,9 +48,11 @@ VALUES
 	(1, 1), (1, 2), (1,5),
 	(2,1), (2, 2), (2,6), (2,7);
 	
-	
+/*
 SELECT game.name, user.username FROM game LEFT JOIN patron on game.id=patron.gameID LEFT JOIN user ON patron.userID=user.id;
 
 SELECT game.id, game.name, COUNT(CASE WHEN patron.userID IS NOT NULL THEN 1 END) curPlayers, game.maxPlayers, game.startDate FROM game LEFT JOIN patron ON patron.gameID=game.id WHERE game.startDate<CURRENT_TIMESTAMP GROUP BY game.id HAVING curPlayers<>game.maxPlayers;
 
 SELECT game.id, game.name, COUNT(CASE WHEN patron.userID IS NOT NULL THEN 1 END) curPlayers, game.maxPlayers, game.startDate FROM game LEFT JOIN patron ON patron.gameID=game.id WHERE game.startDate>CURRENT_TIMESTAMP GROUP BY game.id HAVING curPlayers<>game.maxPlayers;
+*/
+SELECT name, timeStep, maxPlayers, multiStep, lookAhead FROM game;

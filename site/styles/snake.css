@@ -57,8 +57,7 @@ p {
 /* Forms */
 
 .inputForm {
-    position: relative;
-    top: 5rem; 
+    margin: 5rem 0; 
 
     display: flex;
     flex-direction: column;
@@ -67,6 +66,17 @@ p {
     border-radius: 1rem;
     width: 40%;
     padding: 0.75rem;
+}
+
+.inputForm .splitLabel {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 80%;
+}
+
+.inputForm .helpText {
+    font-size: 0.75rem;
 }
 
 .inputForm h1, .inputForm h2, .inputForm h3, .inputForm h4, .inputForm h5, .inputForm h6 {
@@ -111,6 +121,10 @@ p {
     font-size: 1.25rem;
 }
 
+.errorBox {
+    background-color: #FF4A42;
+    padding: 1em;
+}
 /* End forms */
 
 .singleCol {
@@ -119,3 +133,4 @@ p {
     align-items: center;
     justify-content: flex-start;
 }
+
