@@ -17,13 +17,6 @@
         $curTime = time() - 21600;
         try { 
             $dateTime = strtotime($_POST["startDate"]);
-            /*
-			echo $dateTime . "<br>";
-            echo $curTime . "<br>";
-			echo date('d/M/Y h:i:s', $dateTime) . "<br>";
-			echo date('d/M/Y h:i:s', $curTime) . "<br>";
-			echo $dateTime - $curTime;
-            */
 			if($dateTime < $curTime)
             {
                 array_push($issues, "Date must be a time in the future.");
@@ -32,7 +25,6 @@
         catch(Exception $ex) 
         {
             array_push($issues, "Date was invalid");
-            //echo $ex;
         }
 
         if(count($issues) == 0)
@@ -40,9 +32,10 @@
 			echo "SENDING";
 			require_once "utils/dbConnect.php";
 			$db = db_connect();
-			$query = "INSERT INTO game (name, dateCreated, startDate, maxPlayers, boardSize, multiStep) VALUES (?, ?, ?, ?, ?, ?)";
+			$query = "INSERT INTO game (name, dateCreated, startDate, hostID, maxPlayers, boardSize) VALUES (?, ?, ?, ?, ?, ?)";
 			$dateTime = strtotime($_POST["startDate"]);
 			$dateTime2 = date('Y-m-d h:i:s', $dateTime);
+            
 			$parameters = [$_POST["gameName"], date('Y-m-d h:i:s', time()), $dateTime2, $_POST["maxPlayers"], 20, 1];
 			print_r($parameters);
 			$alreadyExistsStatement = $db->prepare($query);

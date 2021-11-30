@@ -50,7 +50,6 @@
     function registerUser($username, $password)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-        //echo $hashedPassword;
         
         require_once "utils/dbConnect.php";
         $db = db_connect();

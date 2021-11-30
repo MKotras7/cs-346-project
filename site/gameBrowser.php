@@ -5,7 +5,7 @@
 	
 	$currentGames = [];
 	$upcomingGames = [];
-	$curTime = time() - 21600;
+	$curTime = time();
 	foreach($result as $q)
 	{
 		if($curTime > strtotime($q["startDate"]))
@@ -67,7 +67,7 @@
 					foreach($currentGames as $game)
 					{
 						$dateTime = new DateTime($game["startDate"]);
-						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y/m/d'));
+						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'));
 					}
 				?>
 				<?php /*
@@ -84,7 +84,7 @@
 					foreach($upcomingGames as $game)
 					{
 						$dateTime = new DateTime($game["startDate"]);
-						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y/m/d'));
+						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'));
 					}
 				?>
 				<?php /*
