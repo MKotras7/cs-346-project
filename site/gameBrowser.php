@@ -1,4 +1,23 @@
 <?php
+	require_once "utils/dbConnect.php";
+	$db = db_connect();
+	$result = $db->query("SELECT name, maxPlayers, startDate FROM game");
+	
+	$currentGames = [];
+	$upcomingGames = [];
+	$curTime = time() - 21600;
+	foreach($result as $q)
+	{
+		if($curTime > strtotime($q["startDate"]))
+		{
+			array_push($currentGames, $q);
+		}
+		else
+		{
+			array_push($upcomingGames, $q);
+		}
+	}
+
     function makeGameListing($name, $curPlayers, $maxPlayers, $startDate, $lastText)
     {
         ?>
@@ -44,16 +63,34 @@
             <h1 class="centeredHeader"> Browse Games </h1>
             <h2> Current Games </h2>
             <ul class="gameList">
+				<?php
+					foreach($currentGames as $game)
+					{
+						$dateTime = new DateTime($game["startDate"]);
+						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y/m/d'));
+					}
+				?>
+				<?php /*
                 <?=makeCurrentGame("Gumby's Game", 5, 20, "10/20/2005")?>
                 <?=makeCurrentGame("Trundler's Fun House", 20, 20, "10/20/2005")?>
                 <?=makeCurrentGame("Ronaldo's Battleground", 20, 20, "10/20/2005")?>
                 <?=makeCurrentGame("Justin's Game", 5, 5, "15/10/2005")?>
                 <?=makeCurrentGame("Andre's Game", 5, 20, "10/20/2005")?>
+				*/ ?>
             </ul>
             <h2> Upcoming Games </h2>
             <ul class="gameList">
-                <?=makeUpcomingGameListing("Andre's Game", 5, 20, "10/20/2052")?>
-            </ul>
+				<?php
+					foreach($upcomingGames as $game)
+					{
+						$dateTime = new DateTime($game["startDate"]);
+						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y/m/d'));
+					}
+				?>
+				<?php /*
+					<?=makeUpcomingGameListing("Andre's Game", 5, 20, "10/20/2052")?>
+				*/ ?>
+			</ul>
             <a href="./createGame.php" class="anchorButton">Create Game</a>
             </main>
     </body>

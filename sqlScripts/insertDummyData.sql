@@ -28,7 +28,7 @@ VALUES
 		5,
 		20
 	);
-
+/*
 INSERT INTO game (name, dateCreated, startDate, maxPlayers, boardSize, multiStep) 
 VALUES
 	(
@@ -39,7 +39,7 @@ VALUES
 		20,
 		0
 	);
-
+*/
 SELECT game.id, name, user.username FROM game LEFT JOIN user ON user.id=game.hostID;
 
 

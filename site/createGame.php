@@ -1,9 +1,9 @@
 <?php 
+	$issues = [];
     if ($_SERVER['REQUEST_METHOD'] == 'POST') 
     {
         //print_r($_POST);
-        $issues = [];
-        //Game
+		//Game
         $gameName = $_POST["gameName"];
         if(strlen($gameName) < 4)
         {
@@ -14,13 +14,19 @@
             array_push($issues, "Game name is too long.");    
         }
 
-        $curTime = time();
+        $curTime = time() - 21600;
         try { 
             $dateTime = strtotime($_POST["startDate"]);
-            echo $dateTime;
-            if($dateTime < $curTime)
+            /*
+			echo $dateTime . "<br>";
+            echo $curTime . "<br>";
+			echo date('d/M/Y h:i:s', $dateTime) . "<br>";
+			echo date('d/M/Y h:i:s', $curTime) . "<br>";
+			echo $dateTime - $curTime;
+            */
+			if($dateTime < $curTime)
             {
-                array_push($issue, "Date must be a time in the future.");
+                array_push($issues, "Date must be a time in the future.");
             }
         }
         catch(Exception $ex) 
@@ -29,7 +35,19 @@
             //echo $ex;
         }
 
-        
+        if(count($issues) == 0)
+		{
+			echo "SENDING";
+			require_once "utils/dbConnect.php";
+			$db = db_connect();
+			$query = "INSERT INTO game (name, dateCreated, startDate, maxPlayers, boardSize, multiStep) VALUES (?, ?, ?, ?, ?, ?)";
+			$dateTime = strtotime($_POST["startDate"]);
+			$dateTime2 = date('Y-m-d h:i:s', $dateTime);
+			$parameters = [$_POST["gameName"], date('Y-m-d h:i:s', time()), $dateTime2, $_POST["maxPlayers"], 20, 1];
+			print_r($parameters);
+			$alreadyExistsStatement = $db->prepare($query);
+			$alreadyExistsStatement->execute($parameters);
+		}
     }    
 ?>
 
