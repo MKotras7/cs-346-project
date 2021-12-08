@@ -32,11 +32,26 @@
 			echo "SENDING";
 			require_once "utils/dbConnect.php";
 			$db = db_connect();
-			$query = "INSERT INTO game (name, dateCreated, startDate, hostID, maxPlayers, boardSize) VALUES (?, ?, ?, ?, ?, ?)";
+			$query = "INSERT INTO game 
+					(name, 
+					dateCreated, 
+					startDate, 
+					hostID, 
+					maxPlayers, 
+					boardSize, 
+					publicID) 
+				VALUES (?, ?, ?, ?, ?, ?, ?)";
 			$dateTime = strtotime($_POST["startDate"]);
 			$dateTime2 = date('Y-m-d h:i:s', $dateTime);
             
-			$parameters = [$_POST["gameName"], date('Y-m-d h:i:s', time()), $dateTime2, $_POST["maxPlayers"], 20, 1];
+			$parameters = 
+				[$_POST["gameName"], 
+				date('Y-m-d h:i:s', time()), 
+				$dateTime2, 
+				0, 
+				$_POST["maxPlayers"], 
+				20, 
+				uniqid()];
 			print_r($parameters);
 			$alreadyExistsStatement = $db->prepare($query);
 			$alreadyExistsStatement->execute($parameters);

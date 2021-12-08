@@ -18,7 +18,6 @@
 
     if ($_SERVER['REQUEST_METHOD'] == 'POST') 
     {
-        print_r($_POST);
         if(strlen($_POST["username"]) < 4)
         {
             array_push($issues, "Username must be 4 or more characters");

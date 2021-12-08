@@ -1,4 +1,23 @@
 <?php
+	if(!array_key_exists("gameId", $_GET))
+	{
+		header('HTTP/1.1 404 Not Found');
+		die;
+	}
+	//Now, there is definitely a game ID;
+	
+	require_once "utils/dbConnect.php";
+	$db = db_connect();
+	$query = "SELECT name, startDate, boardSize, publicID FROM game WHERE publicID = ?";
+	$statement = $db->prepare($query);
+	$statement->execute([$_GET["gameId"]]);
+	$gameData = $statement->fetch();
+	print_r($gameData);
+	
+	$currentGames = [];
+	$upcomingGames = [];
+	$curTime = time();
+	
     $alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
     function getAlphaBase($value)
@@ -45,13 +64,13 @@
         ?> </div> <?php
     }
 
-    function generateInputbox($date, $time)
+    function generateInputbox($dateTimeString, $disabled)
     {
-        $id = "snakeInput".$date.$time;
+        $id = "snakeInput" . $dateTimeString;
         ?>
         <div class="snakeInput">
-            <label for="<?=$id?>"><?=$date?> : <?=$time?></label>
-            <select name="<?=$id?>" id="<?=$id?>">
+            <label for="<?=$id?>"><?=$dateTimeString?></label>
+            <select name="<?=$id?>" id="<?=$id?>" <?php if($disabled) {echo 'disabled="disabled"';} ?>>
                 <option value="none">None</option>
                 <option value="up">Up</option>
                 <option value="right">Right</option>
@@ -187,9 +206,9 @@
     <body>
         <?php include("./header.php") ?>
         <main>
-            <h1 style="text-align: center; margin: 0 15px;">Ronaldo's Fun House</h1>
+            <h1 style="text-align: center; margin: 0 15px;"><?=$gameData["name"]?></h1>
             <div id="horizontalSplit">
-                <?=buildGameTable(30, 30)?>
+                <?=buildGameTable(intval($gameData["boardSize"]), intval($gameData["boardSize"]))?>
                 <div id="chatBox">
                     <h2> chat </h2>
                     <div id="chatBoxContainer">
@@ -223,12 +242,20 @@
             </div>
             <div id="inputBox">
                 <form id="inputForm" action="./gameScreen.php">
-                    <?= generateInputbox("11/05/2021", "9pm") ?>
-                    <?= generateInputbox("11/05/2021", "10pm") ?>
-                    <?= generateInputbox("11/05/2021", "11pm") ?>
-                    <?= generateInputbox("11/05/2021", "12pm") ?>
-                    <?= generateInputbox("11/05/2021", "1am") ?>
-                    <?= generateInputbox("11/05/2021", "2am") ?>
+					<?php
+						$startTime = strtotime($gameData["startDate"]);
+						$displayTime = $startTime;
+						$curTime = time();
+						$endTime = $curTime + (10*60*60);
+						
+						while($displayTime < $endTime)
+						//for($i = 0; $i < 5; $i++)
+						{
+							generateInputbox(date('Y-m-d h:i:s', $displayTime), $curTime > $displayTime);
+							$displayTime += 60*60;
+						}
+					?>
+					
                 </form>
                 <a class="anchorButton" href="./gameScreen.php">Submit</a>
             </div>

@@ -1,7 +1,7 @@
 <?php
 	require_once "utils/dbConnect.php";
 	$db = db_connect();
-	$result = $db->query("SELECT name, maxPlayers, startDate FROM game");
+	$result = $db->query("SELECT name, maxPlayers, startDate, publicID FROM game");
 	
 	$currentGames = [];
 	$upcomingGames = [];
@@ -18,7 +18,7 @@
 		}
 	}
 
-    function makeGameListing($name, $curPlayers, $maxPlayers, $startDate, $lastText)
+    function makeGameListing($name, $curPlayers, $maxPlayers, $startDate, $lastText, $publicID)
     {
         ?>
             <li>
@@ -28,21 +28,21 @@
                         <p><?=$curPlayers?>/<?=$maxPlayers?> players</p>
                         <p><?=$lastText?> <?=$startDate?> </p>
                     </div>
-                    <a href="./gameScreen.php?gameId='123123'" class="anchorButton">View</a>    
+                    <a href="./gameScreen.php?gameId=<?=$publicID?>" class="anchorButton">View</a>    
                 </div>
                 
             </li>
         <?php
     }
 
-    function makeCurrentGame($name, $curPlayers, $maxPlayers, $startDate)
+    function makeCurrentGame($name, $curPlayers, $maxPlayers, $startDate, $publicID)
     {
-        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, "Since: ");
+        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, "Since: ", $publicID);
     }
     
-    function makeUpcomingGameListing($name, $curPlayers, $maxPlayers, $startDate)
+    function makeUpcomingGameListing($name, $curPlayers, $maxPlayers, $startDate, $publicID)
     {
-        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, "Starts on: ");
+        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, "Starts on: ", $publicID);
     }
 ?>
 
@@ -67,7 +67,7 @@
 					foreach($currentGames as $game)
 					{
 						$dateTime = new DateTime($game["startDate"]);
-						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'));
+						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'), $game["publicID"]);
 					}
 				?>
 				<?php /*
@@ -84,7 +84,7 @@
 					foreach($upcomingGames as $game)
 					{
 						$dateTime = new DateTime($game["startDate"]);
-						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'));
+						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'), $game["publicID"]);
 					}
 				?>
 				<?php /*
