@@ -6,8 +6,11 @@
 	$currentGames = [];
 	$upcomingGames = [];
 	$curTime = time();
+	echo $curTime;
 	foreach($result as $q)
 	{
+		echo "____";
+		echo strtotime($q["startDate"]);
 		if($curTime > strtotime($q["startDate"]))
 		{
 			array_push($currentGames, $q);
@@ -18,7 +21,7 @@
 		}
 	}
 
-    function makeGameListing($name, $curPlayers, $maxPlayers, $startDate, $lastText, $publicID)
+    function makeGameListing($name, $curPlayers, $maxPlayers, $startDate, $publicID, $lastText)
     {
         ?>
             <li>
@@ -28,7 +31,7 @@
                         <p><?=$curPlayers?>/<?=$maxPlayers?> players</p>
                         <p><?=$lastText?> <?=$startDate?> </p>
                     </div>
-                    <a href="./gameScreen.php?gameId=<?=$publicID?>" class="anchorButton">View</a>    
+                    <a href="./gameScreen.php?gameId='<?=$publicID?>'" class="anchorButton">View</a>    
                 </div>
                 
             </li>
@@ -37,12 +40,12 @@
 
     function makeCurrentGame($name, $curPlayers, $maxPlayers, $startDate, $publicID)
     {
-        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, "Since: ", $publicID);
+        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, $publicID, "Since: ");
     }
     
     function makeUpcomingGameListing($name, $curPlayers, $maxPlayers, $startDate, $publicID)
     {
-        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, "Starts on: ", $publicID);
+        makeGameListing($name, $curPlayers, $maxPlayers, $startDate, $publicID, "Starts on: ");
     }
 ?>
 
@@ -67,16 +70,9 @@
 					foreach($currentGames as $game)
 					{
 						$dateTime = new DateTime($game["startDate"]);
-						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'), $game["publicID"]);
+						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('m-d-Y h:i:s a'), $game["publicID"]);
 					}
 				?>
-				<?php /*
-                <?=makeCurrentGame("Gumby's Game", 5, 20, "10/20/2005")?>
-                <?=makeCurrentGame("Trundler's Fun House", 20, 20, "10/20/2005")?>
-                <?=makeCurrentGame("Ronaldo's Battleground", 20, 20, "10/20/2005")?>
-                <?=makeCurrentGame("Justin's Game", 5, 5, "15/10/2005")?>
-                <?=makeCurrentGame("Andre's Game", 5, 20, "10/20/2005")?>
-				*/ ?>
             </ul>
             <h2> Upcoming Games </h2>
             <ul class="gameList">
@@ -84,7 +80,7 @@
 					foreach($upcomingGames as $game)
 					{
 						$dateTime = new DateTime($game["startDate"]);
-						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y-m-d h:i:s'), $game["publicID"]);
+						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('Y/m/d'), $game["publicID"]);
 					}
 				?>
 				<?php /*

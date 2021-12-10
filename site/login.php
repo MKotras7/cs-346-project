@@ -1,4 +1,6 @@
 <?php
+	include_once "./utils/sessionHelper.php";
+	
     $attemptedLogin = $_SERVER['REQUEST_METHOD'] == 'POST';
     $succeedLogin = False;
 
@@ -11,15 +13,17 @@
         require_once "utils/dbConnect.php";
         $db = db_connect();
 
-        $getPasswordQuery = "SELECT password FROM user WHERE username=?";
-        $getPasswordStatement = $db->prepare($getPasswordQuery);
-        $getPasswordStatement->execute([$username]);
-        $getPasswordResult = $getPasswordStatement->fetchColumn(0);
-        //print_r($getPasswordResult);
-        if(password_verify($password, $getPasswordResult))
+        $query = "SELECT password, id FROM user WHERE username=?";
+        $statement = $db->prepare($query);
+        $statement->execute([$username]);
+        $result = $statement->fetch();
+        if(password_verify($password, $result["password"]))
         {
+			$_SESSION["name"] = $result["id"];
+			echo $_SESSION["name"];
             echo "CORRECT PASSWORD";
             $succeedLogin = True;
+			redirect("index.php", "Login Successful.");
         }
         else
         {
