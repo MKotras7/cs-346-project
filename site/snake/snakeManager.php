@@ -85,8 +85,10 @@
 	{
 		foreach($players as $player)
 		{
-			foreach($player as $playerSegment)
+			for($j = 1; array_key_exists($j, $player); $j++)
+			//foreach($player as $playerSegment)
 			{
+				$playerSegment = $player[j];
 				if($playerSegment["x"] == $x and $playerSegment["y"] == $y)
 				{
 					return true;
@@ -98,10 +100,12 @@
 	
 	function simulateTo($game, $iteration)
 	{
+		//echo $iteration;
 		include_once("./utils/inputHelper.php");
 		$inputs = getAllInputs($game);
 		//print_r($inputs);
-		
+		$players = [];
+		$fruits = [];
 		$random = hash("sha256", $game->id);
 		$random = getNextRandom($random);
 		//These two statements wil be repeated constantly to get new random numbers
@@ -212,16 +216,25 @@
 						//echo "<br>";
 					}
 				}
+				//print_r($players);
+				//echo "<br>";
 				$deleteIDs = [];
 				foreach($players as $player)
 				{
+					//print_r($player);
+					//echo "checking " . $player["id"] . " ";
 					$collisionsAtP = getPlayerCollisions($player[0]["x"], $player[0]["y"], $players, $fruits);
+					//print_r($collisionsAtP);
 					if(count($collisionsAtP) > 1)
 					{
+						//echo "hit" . $player[0]["x"] . $player[0]["y"];
+						$deleteIDs[$player["id"]] = true;
+						/*
 						foreach($collisionsAtP as $id)
 						{
 							$deleteIDs[$id] = true;
 						}
+						*/
 					}
 					if($player[0]["x"] < 0 or $player[0]["x"] >= $game->boardSize or $player[0]["y"] < 0 or $player[0]["y"] >= $game->boardSize)
 					{
@@ -237,6 +250,7 @@
 					$size = count($players);
 					for($i = 0; $i < $size; $i++)
 					{
+						$player = $players[$i];
 						if($player["id"] == $key)
 						{
 							unset($players[$i]);
@@ -248,7 +262,6 @@
 						}
 					}
 				}
-				
 			}
 		}
 		return ["players" => $players, "fruits" => $fruits];

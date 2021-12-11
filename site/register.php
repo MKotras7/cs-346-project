@@ -1,3 +1,62 @@
+<?php
+	include_once("./utils/sessionHelper.php");
+	include_once("./utils/userHelper.php");
+	require_once "utils/dbConnect.php";
+	if($sessionHelper["loggedIn"])
+	{
+		redirect("sorryCantBeLoggedIn.php");
+	}
+	$issues = [];
+	$created = false;
+	if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+    {
+		$username = $_POST["username"];
+		if(strlen($username) < 4)
+        {
+            array_push($issues, "Username is too short.");
+        }
+		if(strlen($username) > 30)
+        {
+            array_push($issues, "Username name is too long.");    
+        }
+		
+		$password = $_POST["password"];
+		$confirmPassword = $_POST["confirmPassword"];
+		
+		if($password != $confirmPassword)
+		{
+            array_push($issues, "Password and Confirmation must be identical.");
+		}
+		
+		if(strlen($username) < 4)
+        {
+            array_push($issues, "Username is too short.");
+        }
+		if(strlen($username) > 30)
+        {
+            array_push($issues, "Username name is too long.");    
+        }
+		
+		if(usernameIsTaken($username))
+		{
+			array_push($issues, "Username is already taken.");  
+		}
+		
+		if(count($issues) == 0)
+		{
+			if(registerUser($username, $password, true))
+			{
+				redirect("./login.php");
+			}
+			else
+			{
+				array_push($issues, "Sorry, there was some error.");  
+			}
+					
+		}
+    }    
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,9 +69,23 @@
     <body>
         <?php include("./header.php") ?>
         <main class="singleCol">
-            <form action="./login.php" class="inputForm">
+            <form action="./register.php" class="inputForm" method="POST">
                 <h1>Create new account</h1>
-                <h4>Sorry, at the moment you cannot register a named account, however, you can <a href="guestAccount.php">get a guest account.</a></h4>
+				<?php if(count($issues) >0 )
+					{
+						?>
+						<ul class="errorBox">
+						<?php
+							foreach($issues as $issue)
+							{
+								?> <li> <?=$issue?> </li> <?php
+							}
+						?>
+						</ul>
+						<?php
+					}
+					?>
+				
                 <label for="username"> Username </label>
                 <input type="text" id="username" name="username" placeholder="Username">
 

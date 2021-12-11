@@ -12,8 +12,9 @@
         <main class="singleCol">
             <div class="inputForm">
                 <h1>Error</h1>
-				<p style="display:flex; justify-content: center;">Sorry, please log in to use this feature.</p>
+				<p style="display:flex; justify-content: center;">Sorry, only registered users can create new games.</p>
 				<a href="login.php">Log in</a>
+				<a href="login.php">Register</a>
              </div>
         </main>
     </body>

@@ -23,6 +23,8 @@
         return $outText;
     }
 
+	
+
     function buildGameTable($width, $height)
     {
         ?> <div id = "gameWrapper"> <?php
@@ -39,7 +41,7 @@
                 ?> <td> <?=$i?> </td> <?php
                 for($j = 0; $j < $width; $j++)
                 {
-                    ?> <td style="background-color: <?= rand(0, 1) == 0 ? "black" : "#7EBCA1" ?>;" id="<?= getAlphaBase($j).$i ?>">  </td> <?php
+                    ?> <td style="background-color:<?= rand(0, 1) == 0 ? "black" : "#7EBCA1" ?>;" id="<?= getAlphaBase($j).$i ?>">  </td> <?php
                 }
                 ?> </tr> <?php
             }
@@ -87,13 +89,13 @@
 					{
 						foreach($map["players"] as $player)
 						{
-							for($k = 0; array_key_exists($k, $player); $k++)
+							for($k = 0; array_key_exists($k, $player) and !$foundPlayer; $k++)
 							{
 								$curPlayerSegment = $player[$k];
 								if($curPlayerSegment["x"] == $j and $curPlayerSegment["y"] == $i)
 								{
 									//echo getColorFromID($player["id"]);
-									?> <td style="background-color: "#"<?= getColorFromID($player["id"]) ?> " id="<?= getAlphaBase($j).$i ?>">  </td> <?php
+									?> <td style="background-color: #<?= getColorFromID($player["id"]) ?> " id="<?= getAlphaBase($j).$i ?>">  </td> <?php
 									$foundPlayer = true;
 								}
 							}
@@ -161,18 +163,15 @@
 		
 	}
 	
-	$hoursPassed;
+	$curTime = time();
+	$gameStartTime = strtotime($game->startDate);
+	$timeDiff = $curTime - $gameStartTime;
+	$oneHour = 60*60;
+	$hoursPassed = floor($timeDiff / $oneHour);
 	function generateInputBoxes()
 	{
 		global $hoursPassed;
 		global $game;
-		$curTime = time();
-		$gameStartTime = strtotime($game->startDate);
-		$timeDiff = $curTime - $gameStartTime;
-		
-		$oneHour = 60*60;
-		$hoursPassed = floor($timeDiff / $oneHour);
-		
 		
 		$inputs = getAllInputs($game);
 		
@@ -315,19 +314,39 @@
 	$loggedIn = $sessionHelper["loggedIn"];
 	$users = getGamePatrons($game);
 	$isPlayingThisGame = false;
-	foreach($users as $user)
+	if($loggedIn)
 	{
-		if($user->id == $_SESSION["name"])
+		foreach($users as $user)
 		{
-			$isPlayingThisGame = true;
-			break;
+			if($user->id == $_SESSION["name"])
+			{
+				$isPlayingThisGame = true;
+				break;
+			}
 		}
 	}
+	include("./snake/snakeManager.php");
+	$map = simulateTo($game, $hoursPassed - 1);
+	//$map = simulateTo($game, 8);
+	?> <div id="horizontalSplit"> <?php
+		displayNewTable($map);
+		?> 
+		<div>
+			<ul>
+				<?php
+					$users = getGamePatrons($game);
+					foreach($users as $user)
+					{	?>
+						<li style="background-color:#<?= getColorFromID($user->id) ?>"> <?=$user->username?> - #<?= getColorFromID($user->id) ?> </li>
+					<?php } ?>
+			</ul>
+		</div>
+	<?php
+	?> </div> <?php
 	if($isPlayingThisGame)
 	{
 		generateInputBoxes();
 	}
-	include("./snake/snakeManager.php");
-	$map = simulateTo($game, $hoursPassed);
-	displayNewTable($map);
+	
+	
 ?>

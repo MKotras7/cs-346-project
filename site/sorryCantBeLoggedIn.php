@@ -12,8 +12,8 @@
         <main class="singleCol">
             <div class="inputForm">
                 <h1>Error</h1>
-				<p style="display:flex; justify-content: center;">Sorry, please log in to use this feature.</p>
-				<a href="login.php">Log in</a>
+				<p style="display:flex; justify-content: center;">Sorry, you can't be logged in to use this.</p>
+				<a href="logout.php">Log out</a>
              </div>
         </main>
     </body>

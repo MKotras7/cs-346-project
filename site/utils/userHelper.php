@@ -10,6 +10,15 @@
 		return $newUser;
 	}
 	
+	function isUserRegistered($user)
+	{
+		$db = db_connect();
+		$query = "SELECT * FROM registereduser WHERE userID=?";
+		$statement = $db->prepare($query);
+		$statement->execute([$user->id]);
+		return count($statement->fetchAll()) == 1;
+	}
+	
 	function getAllUsers()
 	{
 		$db = db_connect();
@@ -88,7 +97,7 @@
 
     //Tries to register a user.
     //Returns true if the registration succeeded.
-    function registerUser($username, $password)
+    function registerUser($username, $password, $registered)
     {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         //echo $hashedPassword;
@@ -98,9 +107,18 @@
         try {
             if(!usernameIsTaken($username))
             {
+				
                 $insertQuery = "INSERT INTO user (username, password) VALUES (?,?)";
                 $insertStatement = $db->prepare($insertQuery);
-                return $insertStatement->execute([$username, $hashedPassword]);
+                $insertStatement->execute([$username, $hashedPassword]);
+				if($registered)
+				{
+					$user = getUserByUsername($username);
+					$query = "INSERT INTO registereduser (userID) VALUES (?)";
+					$statement = $db->prepare($query);
+					$statement->execute([$user->id]);
+				}
+				return true;
             }
         }
         catch (PDOException $e) 

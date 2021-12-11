@@ -1,7 +1,7 @@
 <?php 
     require_once "utils/userHelper.php";
     $user = generateGuestUser();
-    $registerSuccess = registerUser($user["username"], $user["password"]);
+    $registerSuccess = registerUser($user["username"], $user["password"], false);
 ?>
 
 <!DOCTYPE html>

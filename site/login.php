@@ -1,5 +1,9 @@
 <?php
 	include_once "./utils/sessionHelper.php";
+	if($sessionHelper["loggedIn"])
+	{
+		redirect("sorryCantBeLoggedIn.php");
+	}
 	
     $attemptedLogin = $_SERVER['REQUEST_METHOD'] == 'POST';
     $succeedLogin = False;

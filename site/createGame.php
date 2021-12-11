@@ -1,8 +1,20 @@
 <?php 
 	include_once("./utils/sessionHelper.php");
+	include_once("./utils/userHelper.php");
+	include_once("./utils/gameHelper.php");
+
+	if(!$sessionHelper["loggedIn"]) 
+	{ 
+		redirect("sorryLogIn.php");
+	} 
+	else if(!isUserRegistered(getUserByID($_SESSION["name"])))
+	{ 
+		redirect("sorryMustBeRegistered.php");
+	}
 
 	$issues = [];
-    if ($_SERVER['REQUEST_METHOD'] == 'POST' and $sessionHelper["loggedIn"]) 
+	
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' and $sessionHelper["loggedIn"] and isUserRegistered(getUserByID($_SESSION["name"]))) 
     {
         $gameName = $_POST["gameName"];
         if(strlen($gameName) < 4)
@@ -30,13 +42,12 @@
 
         if(count($issues) == 0)
 		{
-			echo "SENDING";
 			require_once "utils/dbConnect.php";
 			$db = db_connect();
 			$query = "INSERT INTO game (name, dateCreated, startDate, maxPlayers, boardSize, publicID) VALUES (?, ?, ?, ?, ?, ?)";
 			$dateTime = strtotime($_POST["startDate"]);
 			$dateTime2 = date('Y-m-d H:i:s', $dateTime);
-			echo $dateTime2;
+			//echo $dateTime2;
 			$parameters = [$_POST["gameName"], date('Y-m-d H:i:s', time()), $dateTime2, $_POST["maxPlayers"], 20, uniqid()];
 			
 			$alreadyExistsStatement = $db->prepare($query);
@@ -58,10 +69,7 @@
     <body>
         <?php include("./header.php") ?>
         <main class="singleCol">
-			<?php if(!$sessionHelper["loggedIn"]) 
-			{ 
-				redirect("sorryLogIn.php");
-			} else { ?>
+			
 		
 				<form action="./createGame.php" class="inputForm" method="POST">
 					<h1>Create Game</h1>
@@ -106,7 +114,6 @@
 						<a href="./gameBrowser.php">Go Back</a>
 					</div>
 				</form>
-			<?php } ?>
         </main>
     </body>
 </html> 
