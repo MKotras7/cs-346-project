@@ -1,9 +1,9 @@
 <?php 
+	include_once("./utils/sessionHelper.php");
+
 	$issues = [];
-    if ($_SERVER['REQUEST_METHOD'] == 'POST') 
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' and $sessionHelper["loggedIn"]) 
     {
-        //print_r($_POST);
-		//Game
         $gameName = $_POST["gameName"];
         if(strlen($gameName) < 4)
         {
@@ -38,7 +38,7 @@
 			$dateTime2 = date('Y-m-d H:i:s', $dateTime);
 			echo $dateTime2;
 			$parameters = [$_POST["gameName"], date('Y-m-d H:i:s', time()), $dateTime2, $_POST["maxPlayers"], 20, uniqid()];
-			print_r($parameters);
+			
 			$alreadyExistsStatement = $db->prepare($query);
 			$alreadyExistsStatement->execute($parameters);
 		}
@@ -58,49 +58,55 @@
     <body>
         <?php include("./header.php") ?>
         <main class="singleCol">
-            <form action="./createGame.php" class="inputForm" method="POST">
-                <h1>Create Game</h1>
-                <?php if(count($issues) >0 )
-                {
-                    ?>
-                    <ul class="errorBox">
-                    <?php
-                        foreach($issues as $issue)
-                        {
-                            ?> <li> <?=$issue?> </li> <?php
-                        }
-                    ?>
-                    </ul>
-                    <?php
-                }
-                ?>
+			<?php if(!$sessionHelper["loggedIn"]) 
+			{ 
+				redirect("sorryLogIn.php");
+			} else { ?>
+		
+				<form action="./createGame.php" class="inputForm" method="POST">
+					<h1>Create Game</h1>
+					<?php if(count($issues) >0 )
+					{
+						?>
+						<ul class="errorBox">
+						<?php
+							foreach($issues as $issue)
+							{
+								?> <li> <?=$issue?> </li> <?php
+							}
+						?>
+						</ul>
+						<?php
+					}
+					?>
 
-                <label for="gameName"> Lobby Name </label>
-                <input type="text" id="gameName" name="gameName" placeholder="Name" maxlength=30>
+					<label for="gameName"> Lobby Name </label>
+					<input type="text" id="gameName" name="gameName" placeholder="Name" maxlength=30>
 
-                <label for="startDate"> Time to start </label>
-                <input type="datetime-local" id="startDate" name="startDate">
+					<label for="startDate"> Time to start </label>
+					<input type="datetime-local" id="startDate" name="startDate">
 
-                <label for="maxPlayers"> Max player count </label>
-                <input type="number" id="maxPlayers" name="maxPlayers" min=2 value=2>
+					<label for="maxPlayers"> Max player count </label>
+					<input type="number" id="maxPlayers" name="maxPlayers" min=2 value=2>
 
-                <label for="boardSize"> Board size </label>
-                <input type="number" id="boardSize" name="boardSize" min=10 max=100 value=20>
-                
-                <label for="timeStep" class="splitLabel"> Time Step <span class="helpText">Whats this?</span> </label>
-                <input type="number" id="timeStep" name="timeStep" min=15 max=1440 value=15 step=15>
+					<label for="boardSize"> Board size </label>
+					<input type="number" id="boardSize" name="boardSize" min=10 max=100 value=20>
+					
+					<label for="timeStep" class="splitLabel"> Time Step <span class="helpText">Whats this?</span> </label>
+					<input type="number" id="timeStep" name="timeStep" min=15 max=1440 value=15 step=15>
 
-                <label for="multiStep" class="splitLabel"> Multi Step <span class="helpText">Whats this?</span> </label>
-                <input type="number" id="multiStep" name="multiStep" min=1 max=100 value=1>
-                
-                <label for="lookAhead" class="splitLabel"> Look Ahead <span class="helpText">Whats this?</span> </label>
-                <input type="number" id="lookAhead" name="lookAhead" min=1 max=100 value=1>
+					<label for="multiStep" class="splitLabel"> Multi Step <span class="helpText">Whats this?</span> </label>
+					<input type="number" id="multiStep" name="multiStep" min=1 max=100 value=1>
+					
+					<label for="lookAhead" class="splitLabel"> Look Ahead <span class="helpText">Whats this?</span> </label>
+					<input type="number" id="lookAhead" name="lookAhead" min=1 max=100 value=1>
 
-                <input class="anchorButton" type="submit" value="Submit"/>
-                <div class="formExtras" style="display: flex; flex-direction: row; justify-content: flex-start;">
-                    <a href="./gameBrowser.php">Go Back</a>
-                </div>
-            </form>
+					<input class="anchorButton" type="submit" value="Submit"/>
+					<div class="formExtras" style="display: flex; flex-direction: row; justify-content: flex-start;">
+						<a href="./gameBrowser.php">Go Back</a>
+					</div>
+				</form>
+			<?php } ?>
         </main>
     </body>
 </html> 

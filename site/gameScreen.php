@@ -1,39 +1,3 @@
-<?php
-    include_once "./utils/sessionHelper.php";
-    include_once "./utils/gameHelper.php";
-	if($_SERVER['REQUEST_METHOD'] != 'GET')
-	{
-		die();
-	}
-	
-	$games = getAllGames();
-	//print_r($games);
-	
-	foreach($games as $game)
-	{
-		echo $game->publicID;
-		echo "    ";
-		echo $game->id;
-		echo "    ";
-	}
-	
-	
-	
-	
-	/*
-	if(empty($_GET["gameId"]))
-	{
-		echo "GAME NOT FOUND";
-	}
-	else
-	{
-		
-		echo "GAME FOUND";
-	}
-	*/
-?>
-
-<!--
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -42,13 +6,26 @@
         <meta name="viewport" content="width=device-width,initial-scale=1">
         <link rel="stylesheet" href="/styles/snake.css">
     </head>
-
     <body>
         <?php include("./header.php") ?>
-        <main>
-            <h1 style="text-align: center; margin: 0 15px;">This game's title</h1>
-          
+		<main>
+		<?php
+			include_once "./utils/gameHelper.php";
+			if($_SERVER['REQUEST_METHOD'] != 'GET')
+			{
+				die();
+			}
+			include_once("./utils/gameHelper.php");
+			$game = getGameInfoFromPublicID($_GET["gameId"]);
+			if(empty($_GET["gameId"]) or strlen($game->id == null))
+			{
+				include("gameScreen/gameNotFound.php");
+			}
+			else
+			{
+				include("gameScreen/actualGame.php");
+			}
+		?>
         </main>
     </body>
 </html> 
--->

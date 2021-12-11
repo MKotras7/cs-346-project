@@ -1,5 +1,7 @@
 <?php
 	session_start();
+	$sessionHelper = [];
+	$sessionHelper["loggedIn"] = isset($_SESSION["name"]);
 	
 	function redirect($url, $flash_message = NULL) 
 	{

@@ -1,0 +1,1 @@
+<h1 style="text-align: center; margin: 0 15px;">Game not found.</h1>

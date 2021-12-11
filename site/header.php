@@ -1,6 +1,6 @@
 <?php
 	include_once("./utils/sessionHelper.php");
-	$loggedIn = isset($_SESSION["name"]);
+	include_once("./utils/userHelper.php");
 ?>
 
 
@@ -12,9 +12,13 @@
     <div style="flex-grow: 1; display: flex; flex-direction: row; justify-content: space-between; padding: 0 30px; align-items: center;">
         <nav>
             <a class="anchorButton" href="./gameBrowser.php">Play</a>
+			<?php if($sessionHelper["loggedIn"]) { ?>
+				<p> Welcome, <?= getUserById($_SESSION["name"])->username ?></p>
+			<?php } ?>
+			
 			<p>The current time is <?=(new DateTime())->format("m-d-Y h:i:s a")?> </p>
 			<span>
-			<?php if($loggedIn) { ?>
+			<?php if($sessionHelper["loggedIn"]) { ?>
 				<a class="anchorButton" href="./logout.php">Logout</a>
 			<?php } else { ?>
 				<a class="anchorButton" href="./login.php">Login</a>
