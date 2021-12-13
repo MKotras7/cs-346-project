@@ -1,5 +1,8 @@
+<?php date_default_timezone_set('Etc/UTC'); ?>
+
 <?php
 	include_once "./utils/sessionHelper.php";
+	require_once "utils/passwordHash.php";
 	if($sessionHelper["loggedIn"])
 	{
 		redirect("sorryCantBeLoggedIn.php");
@@ -21,7 +24,8 @@
         $statement = $db->prepare($query);
         $statement->execute([$username]);
         $result = $statement->fetch();
-        if(password_verify($password, $result["password"]))
+        if(workaroundPasswordhash($password) == $result["password"])
+		//if(password_verify($password, $result["password"]))
         {
 			$_SESSION["name"] = $result["id"];
 			echo $_SESSION["name"];
@@ -42,37 +46,41 @@
         <meta charset="UTF-8">
         <title>Login</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" href="/styles/snake.css">
+        <link rel="stylesheet" href="./styles/snake.css">
+		<link rel="stylesheet" href="https://use.typekit.net/pao0qhs.css">
     </head>
 
     <body>
         <?php include("./header.php") ?>
-        <main class="singleCol">
-            <form action="./login.php" class="inputForm" method="POST">
-                <h1>Login</h1>
-                <?php 
-                    if($attemptedLogin && !$succeedLogin)
-                    {
-                        ?> <h2 style="color: red;"> Sorry, invalid credentials. </h2> <?php
-                    } 
-                ?>
-                <label for="username"> Username </label>
-                <input type="text" id="username" name="username" placeholder="username">
+		<div id="wrapper">
+			<main class="singleCol">
+				<form action="./login.php" class="inputForm" method="POST">
+					<h1>Login</h1>
+					<?php 
+						if($attemptedLogin && !$succeedLogin)
+						{
+							?> <h2 style="color: red;"> Sorry, invalid credentials. </h2> <?php
+						} 
+					?>
+					<label for="username"> Username </label>
+					<input type="text" id="username" name="username" placeholder="username">
 
-                <label for="password"> Password </label>
-                <input type="password" id="password" name="password" placeholder="password ">
+					<label for="password"> Password </label>
+					<input type="password" id="password" name="password" placeholder="password ">
 
-                <input class="anchorButton" type="submit" value="Submit"/>
-                <div class="formExtras" style="display: flex; flex-direction: row; justify-content: space-between;">
-                    <a href="./forgotPassword.php">Forgot password</a>
-                    <span>
-                        No account? <a href="./register.php">Register</a>
-                    </span>
-                </div>
-                <div style="display: flex; flex-direction: row; justify-content: flex-start;">
-                    <a href="./index.php">Back to main menu</a>
-                </div>
-            </form>
-        </main>
+					<input class="anchorButton" type="submit" value="Submit"/>
+					<div class="formExtras" style="display: flex; flex-direction: row; justify-content: space-between;">
+						<a href="./forgotPassword.php">Forgot password</a>
+						<span>
+							No account? <a href="./register.php">Register</a>
+						</span>
+					</div>
+					<div style="display: flex; flex-direction: row; justify-content: flex-start;">
+						<a href="./index.php">Back to main menu</a>
+					</div>
+				</form>
+			</main>
+			<?php include("./footer.php"); ?>
+		</div>
     </body>
 </html> 

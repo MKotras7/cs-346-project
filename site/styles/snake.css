@@ -1,8 +1,9 @@
+/*
 @font-face {
     font-family: Poppins;
-    src:url("/fonts/Poppins-SemiBold.ttf");
+    src:url("./fonts/Poppins-SemiBold.ttf");
 }
-
+*/
 body {
     font-family: Poppins, Arial, Helvetica, sans-serif;
     background-color: #565759;
@@ -12,6 +13,18 @@ body {
     display: flex;
     flex-direction: column;
 }
+#wrapper {
+    flex-grow: 1;
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2em 0 2em;
+	height: 100%;
+    background-color: #78797a;
+	display: flex;
+	flex-direction: column;
+}
 main {
     flex-grow: 1;
     box-sizing: border-box;
@@ -19,7 +32,9 @@ main {
     max-width: 1000px;
     margin: 0 auto;
     background-color: #78797a;
-    padding: 0 2em 0 2em;
+}
+footer {
+	
 }
 p {
     font-size: 1rem;
@@ -106,7 +121,7 @@ p {
     margin-bottom: 0.10em;
 }
 
-.inputForm input[type="text"], form input[type="password"], form input[type="date"], form input[type="number"], form input[type="time"], form input[type="datetime-local"] {
+.inputForm input[type="text"], form input[type="password"], form input[type="date"], form input[type="number"], form input[type="time"], form input[type="datetime-local"], form input[type="file"] {
     color: white;
     margin-bottom: 1em;
     padding: 0.25em;

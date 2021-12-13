@@ -49,7 +49,7 @@
     //Returns true if the registration succeeded.
     function registerUser($username, $password)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        $hashedPassword = workaroundPasswordhash($password);
         //echo $hashedPassword;
         
         require_once "utils/dbConnect.php";

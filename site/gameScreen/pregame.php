@@ -10,7 +10,7 @@
 					?> <li> <?=$user->username?> </li> <?php
 				}
 			?>
-			<a href="/joinGame.php?gameId=<?=$game->publicID?>">Join Game</a>
+			<a href="./joinGame.php?gameId=<?=$game->publicID?>">Join Game</a>
 		</ul>
 	</div>
 </div>

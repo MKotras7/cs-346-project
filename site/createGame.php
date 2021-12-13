@@ -1,3 +1,5 @@
+<?php date_default_timezone_set('Etc/UTC'); ?>
+
 <?php 
 	include_once("./utils/sessionHelper.php");
 	include_once("./utils/userHelper.php");
@@ -61,59 +63,61 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Login</title>
+        <title>Create Game</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" href="/styles/snake.css">
+        <link rel="stylesheet" href="./styles/snake.css">
     </head>
     
     <body>
         <?php include("./header.php") ?>
-        <main class="singleCol">
-			
 		
-				<form action="./createGame.php" class="inputForm" method="POST">
-					<h1>Create Game</h1>
-					<?php if(count($issues) >0 )
-					{
+		<div id="wrapper">
+			<main class="singleCol">
+					<form action="./createGame.php" class="inputForm" method="POST">
+						<h1>Create Game</h1>
+						<?php if(count($issues) >0 )
+						{
+							?>
+							<ul class="errorBox">
+							<?php
+								foreach($issues as $issue)
+								{
+									?> <li> <?=$issue?> </li> <?php
+								}
+							?>
+							</ul>
+							<?php
+						}
 						?>
-						<ul class="errorBox">
-						<?php
-							foreach($issues as $issue)
-							{
-								?> <li> <?=$issue?> </li> <?php
-							}
-						?>
-						</ul>
-						<?php
-					}
-					?>
 
-					<label for="gameName"> Lobby Name </label>
-					<input type="text" id="gameName" name="gameName" placeholder="Name" maxlength=30>
+						<label for="gameName"> Lobby Name </label>
+						<input type="text" id="gameName" name="gameName" placeholder="Name" maxlength=30>
 
-					<label for="startDate"> Time to start </label>
-					<input type="datetime-local" id="startDate" name="startDate">
+						<label for="startDate"> Time to start </label>
+						<input type="datetime-local" id="startDate" name="startDate">
 
-					<label for="maxPlayers"> Max player count </label>
-					<input type="number" id="maxPlayers" name="maxPlayers" min=2 value=2>
+						<label for="maxPlayers"> Max player count </label>
+						<input type="number" id="maxPlayers" name="maxPlayers" min=2 value=2>
 
-					<label for="boardSize"> Board size </label>
-					<input type="number" id="boardSize" name="boardSize" min=10 max=100 value=20>
-					
-					<label for="timeStep" class="splitLabel"> Time Step <span class="helpText">Whats this?</span> </label>
-					<input type="number" id="timeStep" name="timeStep" min=15 max=1440 value=15 step=15>
+						<label for="boardSize"> Board size </label>
+						<input type="number" id="boardSize" name="boardSize" min=10 max=100 value=20>
+						
+						<label for="timeStep" class="splitLabel"> Time Step <span class="helpText">Whats this?</span> </label>
+						<input type="number" id="timeStep" name="timeStep" min=15 max=1440 value=15 step=15>
 
-					<label for="multiStep" class="splitLabel"> Multi Step <span class="helpText">Whats this?</span> </label>
-					<input type="number" id="multiStep" name="multiStep" min=1 max=100 value=1>
-					
-					<label for="lookAhead" class="splitLabel"> Look Ahead <span class="helpText">Whats this?</span> </label>
-					<input type="number" id="lookAhead" name="lookAhead" min=1 max=100 value=1>
+						<label for="multiStep" class="splitLabel"> Multi Step <span class="helpText">Whats this?</span> </label>
+						<input type="number" id="multiStep" name="multiStep" min=1 max=100 value=1>
+						
+						<label for="lookAhead" class="splitLabel"> Look Ahead <span class="helpText">Whats this?</span> </label>
+						<input type="number" id="lookAhead" name="lookAhead" min=1 max=100 value=1>
 
-					<input class="anchorButton" type="submit" value="Submit"/>
-					<div class="formExtras" style="display: flex; flex-direction: row; justify-content: flex-start;">
-						<a href="./gameBrowser.php">Go Back</a>
-					</div>
-				</form>
-        </main>
+						<input class="anchorButton" type="submit" value="Submit"/>
+						<div class="formExtras" style="display: flex; flex-direction: row; justify-content: flex-start;">
+							<a href="./gameBrowser.php">Go Back</a>
+						</div>
+					</form>
+			</main>
+			<?php include("./footer.php"); ?>
+		</div>
     </body>
 </html> 

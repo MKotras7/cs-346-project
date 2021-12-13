@@ -1,4 +1,5 @@
 <?php 
+	require_once "utils/passwordHash.php";
 	require_once "utils/dbConnect.php";
 	require_once "utils/snakeGameClasses.php";
 	
@@ -74,7 +75,8 @@
         $alphabetLength = strlen($alphabet);
 
         $curTime = microTime(true);
-        $hash = hash("sha256", $curTime);
+        //echo $curTime;
+		$hash = hash("sha256", $curTime);
         while(usernameIsTaken("guest_".substr($hash,0,10)))
         {
             $hash = hash("sha256", $hash);
@@ -83,11 +85,10 @@
 
         //Password is 16 characters
         $passwordHash = hash("sha256", $hash);
-        $passwordSegment = substr($passwordHash, 0, 26);
+        $passwordSegment = substr($passwordHash, 0, 15);
         $passwordValue = hexdec($passwordSegment);
-        
         $password = "";
-        for($i = 0; $i < 16; $i++)
+        for($i = 0; $i < 10; $i++)
         {
             $password .= $alphabet[$passwordValue % $alphabetLength];
             $passwordValue /= $alphabetLength;
@@ -99,7 +100,8 @@
     //Returns true if the registration succeeded.
     function registerUser($username, $password, $registered)
     {
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+		$hashedPassword = workaroundPasswordhash($password);
+        //$hashedPassword = password_hash($password, PASSWORD_DEFAULT);
         //echo $hashedPassword;
         
         require_once "utils/dbConnect.php";

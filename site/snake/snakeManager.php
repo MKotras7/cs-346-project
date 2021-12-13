@@ -242,8 +242,6 @@
 					}
 				}
 				
-				//print_r($deleteIDs);
-				
 				$keys = array_keys($deleteIDs);
 				foreach($keys as $key)
 				{
@@ -261,6 +259,7 @@
 							break;
 						}
 					}
+					unset($players[$size - 1]);
 				}
 			}
 		}

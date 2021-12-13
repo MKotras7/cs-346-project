@@ -55,9 +55,9 @@
 		{
 			case "NONE": return -1;
 			case "RIGHT": return 0;
-			case "DOWN": return 1;
+			case "UP": return 1;
 			case "LEFT": return 2;
-			case "UP": return 3;
+			case "DOWN": return 3;
 			default: return -1;
 		}
 	}

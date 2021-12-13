@@ -56,6 +56,14 @@
 	
 	function displayNewTable($map)
 	{
+		$directionLookup = 
+			[
+				0 => "./images/rightArrow.png",
+				1 => "./images/upArrow.png",
+				2 => "./images/leftArrow.png",
+				3 => "./images/downArrow.png"
+			];
+		
 		global $game;
 		$width = $game->boardSize;
 		$height = $game->boardSize;
@@ -94,8 +102,22 @@
 								$curPlayerSegment = $player[$k];
 								if($curPlayerSegment["x"] == $j and $curPlayerSegment["y"] == $i)
 								{
-									//echo getColorFromID($player["id"]);
-									?> <td style="background-color: #<?= getColorFromID($player["id"]) ?> " id="<?= getAlphaBase($j).$i ?>">  </td> <?php
+									if($k == 0)
+									{
+										if(file_exists("./userImages/" . $player["id"] . ".png"))
+										{
+											?> <td style="background-image: url(<?= "./userImages/" . $player["id"] . ".png" ?>); background-color: #<?= getColorFromID($player["id"])?>; transform: rotate(<?= 90 * (1 + (-1 * $player["direction"])) ?>deg); ?>" id="<?= getAlphaBase($j).$i ?>">  </td> <?php
+										}
+										else
+										{
+											?> <td style="background-image: url(<?= $directionLookup[$player["direction"]] ?>); background-color: #<?= getColorFromID($player["id"]) ?>" id="<?= getAlphaBase($j).$i ?>">  </td> <?php
+										}
+										
+									}
+									else
+									{
+										?> <td style="background-color: #<?= getColorFromID($player["id"]) ?> " id="<?= getAlphaBase($j).$i ?>">  </td> <?php
+									}
 									$foundPlayer = true;
 								}
 							}
@@ -132,9 +154,9 @@
             <label for="<?=$id?>"><?= $dateText ?> </label>
             <select name="<?=$id?>" id="<?=$id?>" <?= $enabled ? "" : "disabled"?> >
                 <option value="none" <?=$selected==-1?"selected":""?> >None</option>
-                <option value="up" <?=$selected==3?"selected":""?>>Up</option>
+                <option value="up" <?=$selected==1?"selected":""?>>Up</option>
                 <option value="right" <?=$selected==0?"selected":""?>>Right</option>
-                <option value="down" <?=$selected==1?"selected":""?>>Down</option>
+                <option value="down" <?=$selected==3?"selected":""?>>Down</option>
                 <option value="left" <?=$selected==2?"selected":""?>>Left</option>
             </select>
         </div>
@@ -177,20 +199,22 @@
 		
 		?> 
 		<div id="inputBox">
-                <form id="inputForm" action="./gameScreen.php" >
-				<input type="submit" class="anchorButton" value="Submit"></input>
-					<input name="gameId" value=<?= $game->publicID ?> hidden></input>
-					<?php
-						for($i = 0; $i < $hoursPassed + 10; $i++)
-						{
-							$selected = -1;
-							if(isset($inputs[$_SESSION["name"]][$i+1]))
+				<form id="inputForm" action="./gameScreen.php" style="display: flex; flex-direction: column;">
+					<div style="display: flex; flex-direction: row; overflow-x: scroll;">
+						<input name="gameId" value=<?= $game->publicID ?> hidden></input>
+						<?php
+							for($i = 0; $i < $hoursPassed + 10; $i++)
 							{
-								$selected = getDirectionNumber($inputs[$_SESSION["name"]][$i+1]);
+								$selected = -1;
+								if(isset($inputs[$_SESSION["name"]][$i+1]))
+								{
+									$selected = getDirectionNumber($inputs[$_SESSION["name"]][$i+1]);
+								}
+								generateInputbox($i, $i >= $hoursPassed, $selected);
 							}
-							generateInputbox($i, $i >= $hoursPassed, $selected);
-						}
-					?>
+						?>
+					</div>
+					<input type="submit" class="anchorButton" value="Submit" style="width: 200px;"></input>
 				</form>
 		</div>
 		<?php
@@ -326,8 +350,8 @@
 		}
 	}
 	include("./snake/snakeManager.php");
-	$map = simulateTo($game, $hoursPassed - 1);
-	//$map = simulateTo($game, 8);
+	//$map = simulateTo($game, $hoursPassed);
+	$map = simulateTo($game, 2);
 	?> <div id="horizontalSplit"> <?php
 		displayNewTable($map);
 		?> 

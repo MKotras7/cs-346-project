@@ -6,7 +6,7 @@ DROP TABLE IF EXISTS gameCache;
 DROP TABLE IF EXISTS game;
 
 DROP TABLE IF EXISTS admin;
-DROP TABLE IF EXISTS registeredUser;
+DROP TABLE IF EXISTS registereduser;
 DROP TABLE IF EXISTS user;
 
 CREATE TABLE user (
@@ -16,8 +16,9 @@ CREATE TABLE user (
 	CONSTRAINT PRIMARY KEY (id)
 );
 
-CREATE TABLE registeredUser (
+CREATE TABLE registereduser (
 	userID INT UNSIGNED NOT NULL UNIQUE,
+	snakeIcon VARCHAR(255),
 	CONSTRAINT FOREIGN KEY (userID) REFERENCES user(id),
 	CONSTRAINT PRIMARY KEY (userID)
 );
@@ -72,7 +73,7 @@ CREATE TABLE patron (
 
 SHOW TABLES;
 DESCRIBE user;
-DESCRIBE registeredUser;
+DESCRIBE registereduser;
 DESCRIBE admin;
 
 DESCRIBE gameCache;

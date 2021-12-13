@@ -1,3 +1,5 @@
+<?php date_default_timezone_set('Etc/UTC'); ?>
+
 <?php
 	include_once("./utils/sessionHelper.php");
 	include_once("./utils/userHelper.php");
@@ -63,44 +65,47 @@
         <meta charset="UTF-8">
         <title>Register</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" href="/styles/snake.css">
+        <link rel="stylesheet" href="./styles/snake.css">
     </head>
     
     <body>
         <?php include("./header.php") ?>
-        <main class="singleCol">
-            <form action="./register.php" class="inputForm" method="POST">
-                <h1>Create new account</h1>
-				<?php if(count($issues) >0 )
-					{
+		<div id="wrapper">
+			<main class="singleCol">
+				<form action="./register.php" class="inputForm" method="POST">
+					<h1>Create new account</h1>
+					<?php if(count($issues) >0 )
+						{
+							?>
+							<ul class="errorBox">
+							<?php
+								foreach($issues as $issue)
+								{
+									?> <li> <?=$issue?> </li> <?php
+								}
+							?>
+							</ul>
+							<?php
+						}
 						?>
-						<ul class="errorBox">
-						<?php
-							foreach($issues as $issue)
-							{
-								?> <li> <?=$issue?> </li> <?php
-							}
-						?>
-						</ul>
-						<?php
-					}
-					?>
-				
-                <label for="username"> Username </label>
-                <input type="text" id="username" name="username" placeholder="Username">
+					
+					<label for="username"> Username </label>
+					<input type="text" id="username" name="username" placeholder="Username">
 
-                <label for="password"> Password </label>
-                <input type="password" id="password" name="password" placeholder="Password">
+					<label for="password"> Password </label>
+					<input type="password" id="password" name="password" placeholder="Password">
 
-                <label for="confirmPassword"> Confirm password </label>
-                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
+					<label for="confirmPassword"> Confirm password </label>
+					<input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password">
 
-                <input class="anchorButton" type="submit" value="Submit"/>
-                <div class="formExtras" style="display: flex; flex-direction: row; justify-content: space-between;">
-                    <a href="./login.php">Back to login</a>
-                    <a href="./guestAccount.php">Anonymous guest account</a>
-                </div>
-            </form>
-        </main>
+					<input class="anchorButton" type="submit" value="Submit"/>
+					<div class="formExtras" style="display: flex; flex-direction: row; justify-content: space-between;">
+						<a href="./login.php">Back to login</a>
+						<a href="./guestAccount.php">Anonymous guest account</a>
+					</div>
+				</form>
+			</main>
+			<?php include("./footer.php"); ?>
+		</div>
     </body>
 </html> 

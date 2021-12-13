@@ -1,3 +1,5 @@
+<?php date_default_timezone_set('Etc/UTC'); ?>
+
 <?php
 	require_once "utils/dbConnect.php";
 	$db = db_connect();
@@ -54,37 +56,40 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Main Menu</title>
+        <title>Browse Games</title>
         <meta name="viewport" content="width=device-width,initial-scale=1">
-        <link rel="stylesheet" href="/styles/snake.css">
-        <link rel="stylesheet" href="/styles/gameList.css">
+        <link rel="stylesheet" href="./styles/snake.css">
+        <link rel="stylesheet" href="./styles/gameList.css">
     </head>
 
     <body>
         <?php include("./header.php") ?>
-        <main>
-            <h1 class="centeredHeader"> Browse Games </h1>
-            <h2> Current Games </h2>
-            <ul class="gameList">
-				<?php
-					foreach($currentGames as $game)
-					{
-						$dateTime = new DateTime($game["startDate"]);
-						makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('m-d-Y h:i:s a'), $game["publicID"]);
-					}
-				?>
-            </ul>
-            <h2> Upcoming Games </h2>
-            <ul class="gameList">
-				<?php
-					foreach($upcomingGames as $game)
-					{
-						$dateTime = new DateTime($game["startDate"]);
-						makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('m-d-Y h:i:s a'), $game["publicID"]);
-					}
-				?>
-			</ul>
-            <a href="./createGame.php" class="anchorButton">Create Game</a>
-            </main>
+		<div id="wrapper">
+			<main>
+				<h1 class="centeredHeader"> Browse Games </h1>
+				<h2> Current Games </h2>
+				<ul class="gameList">
+					<?php
+						foreach($currentGames as $game)
+						{
+							$dateTime = new DateTime($game["startDate"]);
+							makeCurrentGame($game["name"], 0, $game["maxPlayers"], $dateTime->format('m-d-Y h:i:s a'), $game["publicID"]);
+						}
+					?>
+				</ul>
+				<h2> Upcoming Games </h2>
+				<ul class="gameList">
+					<?php
+						foreach($upcomingGames as $game)
+						{
+							$dateTime = new DateTime($game["startDate"]);
+							makeUpcomingGameListing($game["name"], 0, $game["maxPlayers"], $dateTime->format('m-d-Y h:i:s a'), $game["publicID"]);
+						}
+					?>
+				</ul>
+				<a href="./createGame.php" class="anchorButton">Create Game</a>
+				</main>
+				<?php include("./footer.php"); ?>
+			</div>
     </body>
 </html> 
