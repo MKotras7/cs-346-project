@@ -31,3 +31,38 @@ nav a {
     height: 50px;
     font-size: 20px;
 }
+#moreButton
+{
+	display: none;
+}
+#headerButton
+{
+	display: flex;
+}
+#headerButton > *
+{
+	margin: 5px;
+}
+@media all and (max-width: 900px)
+{ 
+	#titleText
+	{
+		display: none;
+	}
+}
+@media all and (max-width: 500px)
+{
+	#headerButton
+	{
+		display: flex;
+		flex-direction: column;
+	}
+	#headerButton
+	{
+		display: none;
+	}
+	#moreButton
+	{
+		display: block;
+	}
+}

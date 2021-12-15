@@ -350,8 +350,8 @@
 		}
 	}
 	include("./snake/snakeManager.php");
-	//$map = simulateTo($game, $hoursPassed);
-	$map = simulateTo($game, 2);
+	$map = simulateTo($game, $hoursPassed);
+	//$map = simulateTo($game, 2);
 	?> <div id="horizontalSplit"> <?php
 		displayNewTable($map);
 		?> 
@@ -370,6 +370,13 @@
 	if($isPlayingThisGame)
 	{
 		generateInputBoxes();
+		if($sessionHelper["loggedIn"])
+		{
+			if($game->hostID == $_SESSION["name"])
+			{
+				?> <a style="margin-top: 20px;" class="anchorButton" href="./delete.php?gameID=<?=$game->publicID?>">Delete Game</a> <?php
+			}
+		}
 	}
 	
 	

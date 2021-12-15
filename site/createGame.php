@@ -46,14 +46,15 @@
 		{
 			require_once "utils/dbConnect.php";
 			$db = db_connect();
-			$query = "INSERT INTO game (name, dateCreated, startDate, maxPlayers, boardSize, publicID) VALUES (?, ?, ?, ?, ?, ?)";
+			$query = "INSERT INTO game (name, dateCreated, startDate, maxPlayers, boardSize, publicID, hostID) VALUES (?, ?, ?, ?, ?, ?, ?)";
 			$dateTime = strtotime($_POST["startDate"]);
 			$dateTime2 = date('Y-m-d H:i:s', $dateTime);
 			//echo $dateTime2;
-			$parameters = [$_POST["gameName"], date('Y-m-d H:i:s', time()), $dateTime2, $_POST["maxPlayers"], 20, uniqid()];
+			$parameters = [$_POST["gameName"], date('Y-m-d H:i:s', time()), $dateTime2, $_POST["maxPlayers"], 20, uniqid(), $_SESSION["name"]];
 			
 			$alreadyExistsStatement = $db->prepare($query);
 			$alreadyExistsStatement->execute($parameters);
+			redirect("./gameBrowser.php");
 		}
     }    
 ?>
